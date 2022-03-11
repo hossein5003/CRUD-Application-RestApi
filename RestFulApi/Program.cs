@@ -41,7 +41,7 @@ builder.Services.AddHealthChecks()
         mongoSettings.ConnectionString,
         name: "mongoDb",
         timeout: TimeSpan.FromSeconds(3),
-        tags: new[] { "ready" }
+        tags: new[] { "database" }
     );
 
 var app = builder.Build();
@@ -51,9 +51,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
-app.UseHttpsRedirection();
+    app.UseHttpsRedirection();
+}
 
 app.UseRouting();
 
@@ -65,7 +65,7 @@ app.UseEndpoints(endpoints =>
 
     endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions
     {
-        Predicate = (check) => check.Tags.Contains("ready"),
+        Predicate = (check) => check.Tags.Contains("database"),
         ResponseWriter = async (context, report) =>
         {
             var result = JsonSerializer.Serialize(

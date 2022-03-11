@@ -5,15 +5,12 @@ namespace RestFulApi.Extentions
 {
     public static class DtoExtentions
     {
-        public static Item CreateDtoAsItem(this CreateItemDto createItemDto)
+        public static Item CreateDtoAsItem(this CreateItemDto createItemDto) => new Item()
         {
-            return new Item()
-            {
-                Id = Guid.NewGuid(),
-                Name = createItemDto.Name,
-                Price = createItemDto.Price,
-                CreatedDate = DateTime.Now
-            };
-        }
+            Id = Guid.NewGuid(),
+            Name = createItemDto.Name,
+            Price = createItemDto.Price,
+            CreatedDate = DateTime.Now
+        };
     }
 }
