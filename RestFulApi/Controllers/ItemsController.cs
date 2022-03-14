@@ -13,19 +13,19 @@ namespace RestFulApi.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IItemRepository _itemRepository;
-        private readonly IMapper _mapper;
+        private readonly ILogger<ItemsController> _logger;
 
-        public ItemsController(IItemRepository itemRepository, IMapper mapper)
+        public ItemsController(IItemRepository itemRepository, ILogger<ItemsController> logger)
         {
             _itemRepository = itemRepository;
-            _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetItemsAsync()
+        public async Task<IEnumerable<ItemDto>> GetItemsAsync()
         {
-            var items = await _itemRepository.GetAsync();
-            return Ok(_mapper.Map<IEnumerable<ItemDto>>(items));
+            var items = (await _itemRepository.GetAsync()).Select(item=>item.ItemAsItemDto());
+            return  items;
         }
 
         [HttpGet("{id}")]
@@ -36,7 +36,7 @@ namespace RestFulApi.Controllers
             if (item is null)
                 return NotFound();
 
-            return Ok(_mapper.Map<ItemDto>(item));
+            return item.ItemAsItemDto();
         }
 
         //201 for success
@@ -48,7 +48,7 @@ namespace RestFulApi.Controllers
 
             await _itemRepository.CreateItemAsync(item);
 
-            return CreatedAtAction(nameof(GetItemAsync), new { id = item.Id }, _mapper.Map<ItemDto>(item));
+            return CreatedAtAction(nameof(GetItemAsync), new { id = item.Id },item.ItemAsItemDto());
         }
 
         //204 which is NoContent() in order to successed
@@ -72,7 +72,7 @@ namespace RestFulApi.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteItem(Guid id)
+        public async Task<ActionResult> DeleteItemAsync(Guid id)
         {
             var itemFromDb = await _itemRepository.GetItemAsync(id);
 
