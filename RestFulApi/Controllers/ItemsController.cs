@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RestFulApi.Entities;
 using RestFulApi.Extentions;
 using RestFulApi.Repositories;
+using static RestFulApi.Dtos;
 
 namespace RestFulApi.Controllers
 {
@@ -55,18 +55,16 @@ namespace RestFulApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> PutAsync(Guid id, UpdateItemDto updateItemDto)
         {
-            var itemFromDb = await _itemRepository.GetItemAsync(id);
+            Item itemFromDb = await _itemRepository.GetItemAsync(id);
 
             if (itemFromDb is null)
                 return NotFound();
 
-            Item updatedItem = itemFromDb with
-            {
-                Name = updateItemDto.Name,
-                Price = updateItemDto.Price,
-            };
+            itemFromDb.Name=updateItemDto.Name;
+            itemFromDb.Price=updateItemDto.Price;
+            itemFromDb.Description=updateItemDto.Description;
 
-            await _itemRepository.UpdateItemAsync(updatedItem);
+            await _itemRepository.UpdateItemAsync(itemFromDb);
 
             return NoContent();
         }

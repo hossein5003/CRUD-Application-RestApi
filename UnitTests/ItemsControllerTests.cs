@@ -1,4 +1,3 @@
-using Dtos;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +8,7 @@ using RestFulApi.Repositories;
 using System;
 using System.Threading.Tasks;
 using Xunit;
+using static RestFulApi.Dtos;
 
 namespace UnitTests
 {
@@ -22,7 +22,8 @@ namespace UnitTests
         public async Task GetItemAsync_WithUnExistingItem_ReturnsNotFound()
         {
             //Arrange
-            repositoryStub.Setup(repository => repository.GetItemAsync(It.IsAny<Guid>())).ReturnsAsync((Item)null);
+            repositoryStub.Setup(repository => repository.GetItemAsync(It.IsAny<Guid>()))
+                .ReturnsAsync((Item)null);
 
             var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
 
@@ -47,8 +48,7 @@ namespace UnitTests
             var result = await controller.GetItemAsync(Guid.NewGuid());
 
             //Assert
-            result.Value.Should().BeEquivalentTo(expectedItem,
-                option => option.ComparingByMembers<Item>());
+            result.Value.Should().BeEquivalentTo(expectedItem);
         }
 
         [Fact]
@@ -62,7 +62,8 @@ namespace UnitTests
                 CreateRandomItem()
             };
 
-            repositoryStub.Setup(repository => repository.GetAsync()).ReturnsAsync(expectedItems);
+            repositoryStub.Setup(repository => repository.GetAsync())
+                .ReturnsAsync(expectedItems);
 
             var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
 
@@ -70,18 +71,17 @@ namespace UnitTests
             var result = await controller.GetItemsAsync();
 
             //Assert
-            result.Should().BeEquivalentTo(expectedItems, options => options.ComparingByMembers<Item>());
+            result.Should().BeEquivalentTo(expectedItems);
         }
 
         [Fact]
         public async Task CreateItemAsync_WithItemToCreate_ReturnsCreatedItem()
         {
             //Arrange
-            var itemToCreate = new CreateItemDto()
-            {
-                Name=Guid.NewGuid().ToString(),
-                Price=rand.Next(1000),
-            };
+            CreateItemDto itemToCreate = new(
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString(),
+                rand.Next(1000));
 
             var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
 
@@ -92,12 +92,12 @@ namespace UnitTests
             var createdItem = (result.Result as CreatedAtActionResult).Value as ItemDto;
 
             createdItem.Id.Should().NotBeEmpty();
-            createdItem.CreatedDate.Should().BeCloseTo(DateTimeOffset.UtcNow, precision: TimeSpan.FromSeconds(5));
+            createdItem.CreatedDate.Should().BeCloseTo(
+                DateTimeOffset.UtcNow,
+                precision: TimeSpan.FromSeconds(5));
 
-            itemToCreate.Should().BeEquivalentTo(
-                createdItem,
-                options => options.ComparingByMembers<ItemDto>().ExcludingMissingMembers()
-                );
+            itemToCreate.Should().BeEquivalentTo(createdItem,
+                options => options.ComparingByMembers<ItemDto>().ExcludingMissingMembers());
         }
 
         [Fact]
@@ -105,17 +105,16 @@ namespace UnitTests
         {
             //Arrange
             var existingItem = CreateRandomItem();
-            repositoryStub.Setup(repository=>repository.GetItemAsync(It.IsAny<Guid>()))
+            repositoryStub.Setup(repository => repository.GetItemAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(existingItem);
 
-            var itemId=existingItem.Id;
-            UpdateItemDto itemToUpdate = new()
-            {
-                Name = Guid.NewGuid().ToString(),
-                Price = rand.Next(1000),
-            };
+            var itemId = existingItem.Id;
+            var itemToUpdate = new UpdateItemDto(
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString(),
+                rand.Next(1000));
 
-            var controller=new ItemsController(repositoryStub.Object,loggerStub.Object);
+            var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
 
             //Act
             var result = await controller.PutAsync(itemId, itemToUpdate);
@@ -127,17 +126,17 @@ namespace UnitTests
         [Fact]
         public async Task DeleteItemAsync_WithExistingItem_ReturnsNoContent()
         {
-            //Arrange
+            // Arrange
             var existingItem = CreateRandomItem();
             repositoryStub.Setup(repository => repository.GetItemAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(existingItem);
 
             var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
 
-            //Act
+            // Act
             var result = await controller.DeleteItemAsync(existingItem.Id);
 
-            //Assert
+            // Assert
             result.Should().BeOfType<NoContentResult>();
         }
 

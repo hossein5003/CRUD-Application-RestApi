@@ -1,6 +1,6 @@
-﻿using Dtos;
-using RestFulApi.Entities;
+﻿using RestFulApi.Entities;
 using AutoMapper;
+using static RestFulApi.Dtos;
 
 namespace RestFulApi.Profiles
 {

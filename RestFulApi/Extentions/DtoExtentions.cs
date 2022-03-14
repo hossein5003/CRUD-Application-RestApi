@@ -1,5 +1,5 @@
-﻿using Dtos;
-using RestFulApi.Entities;
+﻿using RestFulApi.Entities;
+using static RestFulApi.Dtos;
 
 namespace RestFulApi.Extentions
 {
@@ -10,17 +10,12 @@ namespace RestFulApi.Extentions
             {
                 Id = Guid.NewGuid(),
                 Name = createItemDto.Name,
+                Description = createItemDto.Description,
                 Price = createItemDto.Price,
                 CreatedDate = DateTime.Now
             };
 
         public static ItemDto ItemAsItemDto(this Item item)
-            => new()
-            {
-                Id = item.Id,
-                Name = item.Name,
-                Price = item.Price,
-                CreatedDate = item.CreatedDate,
-            };
+            => new(item.Id, item.Name, item.Description, item.Price, item.CreatedDate);
     }
 }

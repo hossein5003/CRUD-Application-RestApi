@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestFulApi", "RestFulApi\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{118746B8-04C5-4336-90D4-91F2EC834F8A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtos", "Dtos\Dtos.csproj", "{1E3A497F-3B2D-423B-BD54-D8CFCDF64BD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5BAC4056-30C3-4587-9F7D-CE53C3C9614B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{5BAC4056-30C3-4587-9F7D-CE53C3C9614B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{DD48C5C7-3B59-46CC-B18A-D44771F3AABB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{DD48C5C7-3B59-46CC-B18A-D44771F3AABB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +25,6 @@ Global
 		{118746B8-04C5-4336-90D4-91F2EC834F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{118746B8-04C5-4336-90D4-91F2EC834F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{118746B8-04C5-4336-90D4-91F2EC834F8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E3A497F-3B2D-423B-BD54-D8CFCDF64BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E3A497F-3B2D-423B-BD54-D8CFCDF64BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E3A497F-3B2D-423B-BD54-D8CFCDF64BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E3A497F-3B2D-423B-BD54-D8CFCDF64BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BAC4056-30C3-4587-9F7D-CE53C3C9614B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5BAC4056-30C3-4587-9F7D-CE53C3C9614B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5BAC4056-30C3-4587-9F7D-CE53C3C9614B}.Release|Any CPU.ActiveCfg = Release|Any CPU
