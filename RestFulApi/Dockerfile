@@ -9,7 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["RestFulApi/RestFulApi.csproj", "RestFulApi/"]
 COPY ["Entities/Entities.csproj", "Entities/"]
-COPY ["Dtos/Dtos.csproj", "Dtos/"]
+COPY ["Repositories/Repositories.csproj", "Repositories/"]
+COPY ["UnitTest/UnitTest.csproj", "UnitTest/"]
 RUN dotnet restore "RestFulApi/RestFulApi.csproj"
 COPY . .
 WORKDIR "/src/RestFulApi"

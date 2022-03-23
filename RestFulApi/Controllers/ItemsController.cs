@@ -22,9 +22,13 @@ namespace RestFulApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ItemDto>> GetItemsAsync()
+        public async Task<IEnumerable<ItemDto>> GetItemsAsync(string name = null)
         {
             var items = (await _itemRepository.GetAsync()).Select(item=>item.ItemAsItemDto());
+
+            if(!string.IsNullOrWhiteSpace(name))
+                items=items.Where(item=>item.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+
             return  items;
         }
 

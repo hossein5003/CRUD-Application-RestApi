@@ -6,6 +6,7 @@ using RestFulApi.Controllers;
 using RestFulApi.Entities;
 using RestFulApi.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using static RestFulApi.Dtos;
@@ -72,6 +73,31 @@ namespace UnitTests
 
             //Assert
             result.Should().BeEquivalentTo(expectedItems);
+        }
+
+        [Fact]
+        public async Task GetItemsAsync_WithMatchingItem_ReturnsMatchingItems()
+        {
+            //Arrange
+            var allItems = new[]
+            {
+                new Item{Name = "Hossein"},
+                new Item{Name = "Sam"},
+                new Item{Name = "Hossein-2"},
+            };
+            var nameToMatch = "Hossein";
+                
+            repositoryStub.Setup(repository => repository.GetAsync())
+                .ReturnsAsync(allItems);
+
+            var controller = new ItemsController(repositoryStub.Object, loggerStub.Object);
+
+            //Act
+            IEnumerable<ItemDto> foundItems = await controller.GetItemsAsync(nameToMatch);
+
+            //Assert
+            foundItems.Should().OnlyContain(
+                item=>item.Name==allItems[0].Name || item.Name==allItems[2].Name);
         }
 
         [Fact]
