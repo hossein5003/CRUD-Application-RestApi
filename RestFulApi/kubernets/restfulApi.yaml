@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: restfulapi
-        image: hossein5003/restfulapi:v2
+        image: hossein5003/restfulapi2:v2
         resources:
           limits:
             memory: "128Mi"

@@ -10,7 +10,6 @@ WORKDIR /src
 COPY ["RestFulApi/RestFulApi.csproj", "RestFulApi/"]
 COPY ["Entities/Entities.csproj", "Entities/"]
 COPY ["Repositories/Repositories.csproj", "Repositories/"]
-COPY ["UnitTest/UnitTest.csproj", "UnitTest/"]
 RUN dotnet restore "RestFulApi/RestFulApi.csproj"
 COPY . .
 WORKDIR "/src/RestFulApi"
