@@ -18,7 +18,7 @@ namespace RestFulApi.Controllers
         public ItemsController(IItemRepository itemRepository, ILogger<ItemsController> logger)
         {
             _itemRepository = itemRepository;
-            _logger = logger;
+            _logger = logger;;
         }
 
         [HttpGet]
